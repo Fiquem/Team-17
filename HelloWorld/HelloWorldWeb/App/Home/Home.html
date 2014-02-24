@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" type="text/css" href="Home.css" />
+    <script src="https://appsforoffice.microsoft.com/lib/1.0/hosted/office.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
+    <script src="Home.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div id="header">
+        <!-- <span id="icon"><img  id="homeIcon" width="0" height="0" src="../../Images/homeicon.png" alt="homeIcon" /></span> -->
+        <span id="category">Home</span>
+        <!-- <span id="help"><img id="helpImage" tabindex="2" width="28" height="28" src="../../Images/helpicon.png" alt="help" /></span> -->
+    </div>
+    <div id="menu">
+        <span id="form" width="200px">Form</span>
+        <span id="progress" width="200px">Progress</span>
+    </div>
+    <!-- Search -->
+    <div id="InputForm">
+        <p>Min Word Count:</p>
+        <input type="text" id="min" size="40" placeholder="Minimum word count" maxlength="20" />
+        <p>Max Word Count:</p>
+        <input type="text" id="max" size="40" placeholder="Maximum word count" maxlength="20" />
+        <p>Requirements:</p>
+        <input type="text" id="req0" size="40" placeholder="Enter a requirement here" maxlength="50" />
+    </div>
+    </br><div id="RequirementForm"></div></br>
+
+    <div id="buttons">
+        <input type="button" value="Add Requirement" id="newReqButton" onclick="addInsElement();" />
+        </br></br>
+        <input type="button" value="Submit" id="inputReqButton" onclick="InputReq();" />
+        </br></br>
+    </div>
+    </br><div id="Requirements"></div></br>
+
+</body>
+</html>
