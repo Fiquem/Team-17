@@ -8,7 +8,8 @@
         $(document).ready(function () {
             // After the DOM is loaded, app-specific code can run.
             // Add any initialization logic to this function.
-
+            document.getElementById("newReqButton").click(InputReq());
+            document.getElementById("inputReqButton").click(addInsElement());
 
         });
     };
@@ -41,7 +42,7 @@ function addInsElement() {
     newInp.setAttribute("MaxLength", "50");
 
     // add the newly created element and its content into the DOM
-    my_div = document.getElementById("RequirementForm");
+    var my_div = document.getElementById("RequirementForm");
     document.body.insertBefore(newInp, my_div);
 
     // BR because I can't br with "br"
