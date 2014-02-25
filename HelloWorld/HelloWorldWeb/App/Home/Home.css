@@ -1,2 +1,51 @@
-﻿/* Page-specific styling */
-
+﻿body
+{
+    position:relative;
+}
+li :hover
+{  
+    text-decoration: underline;
+    cursor:pointer;
+}
+h1,h3,h4,p,a,li
+{
+    font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
+    text-decoration-color:#4ec724;
+}
+div
+{
+	font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
+    text-decoration-color:#4ec724;
+}
+div#header
+{
+	width: 100%;
+	height: 50px;
+	padding-top: 15px;
+	background-color: #2376BC;
+	margin-bottom: 10px;
+}
+div#buttons
+{
+	text-align: center;
+}
+span#category
+{
+	margin-left: 20px;
+	font-size: 24px;
+	color: #FFFFFF;
+}
+menu
+{
+	width: 100%;
+	height: 50px;
+}
+input[type=button]
+{
+	width: 100%;
+	height: 30px;
+	max-width: 500px;
+	border: 1px solid #2376BC;
+    background-color: #2376BC;
+    color: #FFFFFF;
+}
