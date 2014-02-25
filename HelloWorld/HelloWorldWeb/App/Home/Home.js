@@ -13,7 +13,7 @@
 
         });
     };
-
+    
     var reqCount = 1;
     var refCount = 1;
 
@@ -91,6 +91,8 @@
             }
         });
     }
+
+    var progressCount = 0;
     // Get a slice from the file, as specified by
     // the counter contained in the state parameter.
     function getSliceData(state, needle, id, alreadyFound) {
@@ -110,6 +112,7 @@
                   document.getElementById(id).checked = false;
               }
               else {
+                  progressCount++;
                   alreadyFound = true;
                   id += "checkbox";
                   document.getElementById(id).checked = true;
@@ -122,6 +125,25 @@
               }
           });
     }
+    
+    function progress() {     
+        var x = document.getElementById("progressBar");
+        x.setAttribute("value", progressCount / refCount);
+        //for (var i = 0; i < reqCount; i++) {
+        //    if (document.getElementById("req" + i + "checkBox")) {
+        //        count++;
+        //    }
+        //}
+        //var y = document.getElementById("progressBar1");
+        //y.setAttribute("value", count / reqCount);
+    }
+
+    function update() {
+        progress();
+        refSearch();
+    }
+
+
     // Close the file when done with it.
     function closeFile(state) {
         state.file.closeAsync(

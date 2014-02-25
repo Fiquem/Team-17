@@ -39,7 +39,7 @@
         <input type="text" id="req0" size="40" placeholder="Enter a requirement here" maxlength="50" />
         <input type="checkbox" id="req0checkbox" />
     </div>
-
+    <progress id="progressBar1" value="0"></progress>
     </br><div id="RequirementForm"></div></br>
 
     <div id="buttons1">
@@ -48,7 +48,7 @@
         <input type="button" value="Submit" id="inputReqButton" onclick="InputReq();" />
         </br></br>
     </div>
-
+    
     <div id="InputForm2">
         <p>References:</p>
         <input type="text" id="ref0" size="40" placeholder="Enter a reference here" maxlength="50" />
@@ -56,15 +56,15 @@
     </div>
 
     </br><div id="ReferenceForm"></div></br>
-
+    <progress id="progressBar" value="0"></progress>
     <div id="buttons2">
         <input type="button" value="Add Reference" id="newRefButton" onclick="addInsElement('ref');" />
         </br></br>
 
-        <input type="button" value="Refresh" id="search" onclick="refSearch();" />
+        <input type="button" value="Refresh" id="search" onclick="update();" />
         </br></br>
     </div>
-
+    
     </br><div id="Requirements"></div></br>
 
 
