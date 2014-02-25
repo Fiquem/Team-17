@@ -1,7 +1,6 @@
 ﻿/// <reference path="../App.js" />
 
-(function () {
-    "use strict";
+    //"use strict";
     // Checks for the DOM to load using the jQuery ready function.
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
@@ -130,4 +129,3 @@
               // Inform the user that the process is complete.
           });
     }
-})
