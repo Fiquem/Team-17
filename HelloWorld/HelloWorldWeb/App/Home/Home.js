@@ -9,8 +9,8 @@
             // After the DOM is loaded, app-specific code can run.
             // Add any initialization logic to this function.
             
-            $('#newReqButton').click(InputReq());
-            $('#inputReqButton').click(addInsElement())
+            $('#newReqButton').click(addInsElement);
+            $('#inputReqButton').click(InputReq);
 
         });
     };
