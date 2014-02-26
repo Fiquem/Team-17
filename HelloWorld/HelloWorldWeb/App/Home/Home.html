@@ -15,6 +15,11 @@
 
     <link href="Home.css" rel="stylesheet" type="text/css" />
     <script src="Home.js" type="text/javascript"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+
+
 </head>
 <body>
     <!-- Header -->
@@ -28,47 +33,62 @@
         <span id="form" width="200px">Form</span>
         <span id="progress" width="200px">Progress</span>
     </div>
-
+    <progress id="progressBarTotal" value="0"></progress>
+    <input type="button" value="Refresh" id="search" onclick="update();" />
     <!-- Search -->
-    <div id="InputForm1">
-        <p>Min Word Count:</p>
-        <input type="text" id="min" size="40" placeholder="Minimum word count" maxlength="20" />
-        <p>Max Word Count:</p>
-        <input type="text" id="max" size="40" placeholder="Maximum word count" maxlength="20" />
-        <p>Requirements:</p>
-        <input type="text" id="req0" size="40" placeholder="Enter a requirement here" maxlength="50" />
-        <input type="checkbox" id="req0checkbox" />
-    </div>
-    <progress id="progressBar1" value="0"></progress>
-    </br><div id="RequirementForm"></div></br>
+    <p>Word Count:</p>
+    <progress id="progressBarWordCount" value="0"></progress>
+    <input type="button" value="Hide" id="hide1" onclick="toggleVisibility('WordCount', 'hide1');" />
+    <div id="WordCount">
+        <p>
+            Word Count:
+            <input type="text" id="target" size="10" placeholder="Target" maxlength="20" />
 
+            Margin:
+            <input type="text" id="margin" size="10" placeholder="%" maxlength="20" />
+        </p>
+        <p>
+            Min Word Count:
+            <input type="text" id="low" size="10" value="" maxlength="20" />
+        </p>
+        <p>
+            Max Word Count:
+            <input type="text" id="high" size="10" value="" maxlength="20" />
+        </p>
+
+    </div>    
+
+    <p>Requirements:</p>
+    <progress id="progressBarReq" value="0"></progress>
+    <input type="button" value="Hide" id="hide2" onclick="toggleVisibility('Requirements', 'hide2');" />
+    <div id="Requirements">
+    <div id="InputForm1">
+            <input type="text" id="req0" size="35" placeholder="Enter a requirement here" maxlength="50" />
+        <input type="checkbox" id="req0checkbox" />
+            </br></br>
+    </div>
     <div id="buttons1">
         <input type="button" value="Add Requirement" id="newReqButton" onclick="addInsElement('req');" />
         </br></br>
         <input type="button" value="Submit" id="inputReqButton" onclick="InputReq();" />
         </br></br>
     </div>
-    
-    <div id="InputForm2">
-        <p>References:</p>
-        <input type="text" id="ref0" size="40" placeholder="Enter a reference here" maxlength="50" />
-        <input type="checkbox" id="ref0checkbox" />
     </div>
 
-    </br><div id="ReferenceForm"></div></br>
-    <progress id="progressBar" value="0"></progress>
+
+    <p>References:</p>
+    <progress id="progressBarRef" value="0"></progress>
+    <input type="button" value="Hide" id="hide3" onclick="toggleVisibility('References', 'hide3');" />
+    <div id="References">
+    <div id="InputForm2">
+            <input type="text" id="ref0" size="35" placeholder="Enter a reference here" maxlength="50" />
+            <input type="checkbox" id="ref0checkbox" />
+            </br></br>
+    </div>
     <div id="buttons2">
         <input type="button" value="Add Reference" id="newRefButton" onclick="addInsElement('ref');" />
         </br></br>
-
-        <input type="button" value="Refresh" id="search" onclick="update();" />
-        </br></br>
     </div>
-    
-    </br><div id="Requirements"></div></br>
-
-
-
-
+    <div id="Output"></div>
 </body>
 </html>

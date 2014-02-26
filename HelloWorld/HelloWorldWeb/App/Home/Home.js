@@ -59,21 +59,32 @@
     }
 
     function writeToPage(text) {
-        document.getElementById("Requirements").innerText = text;
+        document.getElementById("Output").innerText = text;
     }
 
     //loops through all references and searches the whole document for each
     function refSearch() {
+        var current;
+        var needle;
+        var n;
         for (var i = 0; i < refCount; i++) {
-            var current = "ref" + i;
-            var needle = document.getElementById(current).value
-            getFileData(needle, current);
+            current = "ref" + i;
+            needle = document.getElementById(current).value
+            n = document1.search(needle);
+            if (n == -1) {
+                id =current + "checkbox";
+                document.getElementById(id).checked = false;
+            }
+            else {
+                id = current + "checkbox";
+                document.getElementById(id).checked = true;
+            }
         }
     }
 
 
     // Get all of the content from a Word document in 1KB chunks of text.
-    function getFileData(needle, id) {
+    function getFileData() {
         Office.context.document.getFileAsync(
         Office.FileType.Text,
         {
@@ -87,7 +98,7 @@
                       counter: 0,
                       sliceCount: myFile.sliceCount
                   };
-                getSliceData(state, needle, id, false);
+                getSliceData(state);
             }
         });
     }
@@ -95,52 +106,77 @@
     var progressCount = 0;
     // Get a slice from the file, as specified by
     // the counter contained in the state parameter.
-    function getSliceData(state, needle, id, alreadyFound) {
+    function getSliceData(state) {
         state.file.getSliceAsync(
           state.counter,
           function (result) {
               var slice = result.value,
                 data = slice.data;
               state.counter++;
-              // if the needle is contatined in this slice, set the checkbox, otherwise unset it
+              //sends the data from the slice as text to the addSliceData function which concatenates it to the global variable document1
+              addSliceData(data);
+
               // Check to see if the final slice in the file has
               // been reached—if not, get the next slice;
               // if so, close the file.
-              var n = data.search(needle);
-              if (n == -1 && alreadyFound == false) {
-                  id += "checkbox";
-                  document.getElementById(id).checked = false;
-              }
-              else {
-                  progressCount++;
-                  alreadyFound = true;
-                  id += "checkbox";
-                  document.getElementById(id).checked = true;
-              }
               if (state.counter < state.sliceCount) {
                   getSliceData(state);
               }
               else {
-                  closeFile(state, alreadyFound);
+                  closeFile(state);
               }
           });
     }
+
+    var document1 = "";
+
+    function addSliceData(data) {
+        document1 = document1.concat(data)
+    }
     
     function progress() {     
-        var x = document.getElementById("progressBar");
-        x.setAttribute("value", progressCount / refCount);
-        //for (var i = 0; i < reqCount; i++) {
-        //    if (document.getElementById("req" + i + "checkBox")) {
-        //        count++;
-        //    }
-        //}
-        //var y = document.getElementById("progressBar1");
-        //y.setAttribute("value", count / reqCount);
+        var x = document.getElementById("progressBarRef");
+        var total = 0;
+        var count = 0;
+        var id;
+        //checks the references checkboxes
+        for (var i = 0; i < refCount; i++) {
+            var current = "ref" + i + "checkbox";
+            var box = document.getElementById(current)
+            if (box.checked) {
+               count++;
+            }
+        }
+        total+=count
+        x.setAttribute("value", parseFloat(count) / parseFloat(refCount));
+        count = 0;
+        //checks the requirements checkboxes
+        for (var i = 0; i < reqCount; i++) {
+            var current = "req" + i + "checkbox";
+            var box = document.getElementById(current)
+            if (box.checked) {
+                count++;
+            }
+        }
+        total += count
+        var x = document.getElementById("progressBarReq");
+        x.setAttribute("value", parseFloat(count) / parseFloat(reqCount));
+        //updates the wordcount progress bar based on target wordcount
+        var x = document.getElementById("progressBarWordCount");
+        x.setAttribute("value", parseFloat(wordCount()) / parseFloat(document.getElementById('target').value));
+        //updates the total progress bar, weights word count as 50% and requirements/references as 50%
+        var x = document.getElementById("progressBarTotal");
+        x.setAttribute("value", ((parseFloat(total) / parseFloat(reqCount + refCount)) * 0.5) + ((1250/2500)*0.5));
+        
     }
 
+    //reads in the file as text, searches it for references, counts the words, updates the progress bars and then deletes the file again.
     function update() {
-        progress();
+        getFileData();
+        calculateMargin();
         refSearch();
+        progress();
+        document1 = "";
     }
 
 
@@ -151,7 +187,8 @@
               // Inform the user that the process is complete.
           });
     }
-
+    
+    //used to show/hide divs
     function toggleVisibility(id, buttonID) {
         var e = document.getElementById(id);
         var b = document.getElementById(buttonID);
@@ -164,6 +201,31 @@
             b.setAttribute("value", "Hide");
         }
        
+    }
+    
+    //word count function which replaces a unnecessary text and then counts the spaces in between words
+    function wordCount() {
+        s = document1;
+        s = s.replace(/(^\s*)|(\s*$)/gi, "");
+        s = s.replace(/[ ]{2,}/gi, " ");
+        s = s.replace(/\n /, "\n");
+        writeToPage(s.split(' ').length);
+        return s.split(' ').length;
+    }
+
+    //simple function which calculates the upper and lower bounds of a word count given a target and percentage margin
+    function calculateMargin() {
+        var target = document.getElementById("target").value;
+        var margin = document.getElementById("margin").value;
+        var low = document.getElementById("low");
+        var high = document.getElementById("high");
+
+        var difference = target * (margin / 100);
+        var lowerBound = target - difference;
+        var upperBound = parseInt(target) + parseInt(difference);
+        low.setAttribute("value", lowerBound);
+        high.setAttribute("value", upperBound);
+
     }
 
     
