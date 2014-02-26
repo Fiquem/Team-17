@@ -36,7 +36,7 @@
 
         newInp.setAttribute("type", "text");
         newInp.setAttribute("id", reqId);
-        newInp.setAttribute("size", "40");
+        newInp.setAttribute("size", "35");
         newInp.setAttribute("placeholder", "Enter a " + ((catagory == 'req')?"requirement":"reference") + " here");
         newInp.setAttribute("MaxLength", "50");
 
@@ -48,14 +48,14 @@
         newCB.setAttribute("id", CBid);
 
         // add the newly created element and its content into the DOM
-        var form = (catagory == 'req') ? "RequirementForm" : "ReferenceForm"
+        var form = (catagory == 'req') ? "InputForm1" : "InputForm2";
         my_div = document.getElementById(form);
-        document.body.insertBefore(newInp, my_div);
-        document.body.insertBefore(newCB, my_div);
+        my_div.appendChild(newInp);
+        my_div.appendChild(newCB);
 
-        // BR because I can't br with "br"
+        //BR because I can't br with "br"
         var p = document.createElement("p");
-        document.body.insertBefore(p, my_div);
+        my_div.appendChild(p);
     }
 
     function writeToPage(text) {
@@ -129,3 +129,19 @@
               // Inform the user that the process is complete.
           });
     }
+
+    function toggleVisibility(id, buttonID) {
+        var e = document.getElementById(id);
+        var b = document.getElementById(buttonID);
+        if (e.style.display == 'block') {
+            e.style.display = 'none';
+            b.setAttribute("value", "Show");
+        }
+        else {
+            e.style.display = 'block';
+            b.setAttribute("value", "Hide");
+        }
+       
+    }
+
+    
