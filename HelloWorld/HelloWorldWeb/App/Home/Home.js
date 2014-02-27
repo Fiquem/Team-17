@@ -10,12 +10,14 @@
             
             $('#newReqButton').click(addInsElement);
             $('#inputReqButton').click(InputReq);
+            setTimeout(update, 1000)
 
         });
     };
     
     var reqCount = 1;
     var refCount = 1;
+    var document1 = "";
 
     function InputReq() {
         var min = document.getElementById('min').value;
@@ -134,7 +136,7 @@
           });
     }
 
-    var document1 = "";
+    
 
     function addSliceData(data) {
         document1 = document1.concat(data)
@@ -176,6 +178,8 @@
             value = 1;
         else 
             value = wordCount() / document.getElementById('target').value;
+        if (value > 1)
+            value = 1;
         x.setAttribute("value", value);
 
         //updates the total progress bar, weights word count as 50% and requirements/references as 50%
@@ -194,8 +198,9 @@
         refSearch();
         progress();
         document1 = "";
-    }
-
+        setTimeout(update, 500);
+    };
+    
 
     // Close the file when done with it.
     function closeFile(state) {
@@ -234,7 +239,7 @@
         s = s.replace(/(^\s*)|(\s*$)/gi, "");
         s = s.replace(/[ ]{2,}/gi, " ");
         s = s.replace(/\n /, "\n");
-        writeToPage(s.split(' ').length);
+        //writeToPage(s.split(' ').length);
         return s.split(' ').length;
     }
 

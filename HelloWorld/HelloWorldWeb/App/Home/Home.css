@@ -6,11 +6,13 @@ input[type=smallButton]:hover
 {  
     cursor:pointer;
     background-color: #2376BC;
+    border: 1px solid #FFFFFF;
 }
 input[type=refresh]:hover
 {
     cursor:pointer;
     background-color:  #2376BC;
+    border: 1px solid #FFFFFF;
 }
 h1
 {
@@ -25,7 +27,7 @@ h4
     font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
     font-size: large;
 }
-div
+div#WordCount, div#Requirements, div#References
 {
 	margin-left: 15px;
     font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
