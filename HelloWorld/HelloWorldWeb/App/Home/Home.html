@@ -39,7 +39,7 @@
     <!-- Search -->
     <h1>
         Word Count
-        <input type="smallButton" value="Hide" id="hide1" onclick="toggleVisibility('WordCount', 'hide1');" />
+        <input type="smallButton" value="Hide" id="hide1" onclick="toggleVisibility('WordCount', 'hide1');" readonly />
         <progress id="progressBarWordCount" value="0" max="1"></progress>
     </h1>
 
@@ -64,8 +64,8 @@
 
     <h1>
         Requirements
-        <input type="smallButton" value="Hide" id="hide2" onclick="toggleVisibility('Requirements', 'hide2');" />
-        <input type="smallButton" value="Add" id="newReqButton2" onclick="addInsElement('req'); setVisibility('Requirements', true);" />
+        <input type="smallButton" value="Hide" id="hide2" onclick="toggleVisibility('Requirements', 'hide2');" readonly />
+        <input type="smallButton" value="Add" id="newReqButton2" onclick="addInsElement('req'); setVisibility('Requirements', true);" readonly />
         <progress id="progressBarReq" value="0"></progress>
     </h1>
 
@@ -78,8 +78,8 @@
 
     <h1>
         References
-        <input type="smallButton" value="Hide" id="hide3" onclick="toggleVisibility('References', 'hide3');" />
-        <input type="smallButton" value="Add" id="newReqButton3" onclick="addInsElement('ref'); setVisibility('References', true);" />
+        <input type="smallButton" value="Hide" id="hide3" onclick="toggleVisibility('References', 'hide3');" readonly />
+        <input type="smallButton" value="Add" id="newReqButton3" onclick="addInsElement('ref'); setVisibility('References', true);" readonly />
         <progress id="progressBarRef" value="0"></progress>
     </h1>
 
