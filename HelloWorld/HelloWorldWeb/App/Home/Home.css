@@ -2,20 +2,33 @@
 {
     position:relative;
 }
-li :hover
+input[type=smallButton]:hover
 {  
-    text-decoration: underline;
     cursor:pointer;
+    background-color: #2376BC;
 }
-h1,h3,h4,p,a,li
+input[type=refresh]:hover
 {
+    cursor:pointer;
+    background-color:  #2376BC;
+}
+h1
+{
+    margin-left : 15px;
     font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
+    font-size: medium;
     text-decoration-color:#4ec724;
+}
+h4
+{
+    margin-left : 10px;
+    font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
+    font-size: large;
 }
 div
 {
-	font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
-    text-decoration-color:#4ec724;
+	margin-left: 15px;
+    font-family: "Segoe UI Light","Segoe UI",Tahoma,sans-serif;
 }
 div#header
 {
@@ -42,11 +55,36 @@ menu
 }
 input[type=button]
 {
-	width: 100%;
+	width: 40%;
 	height: 30px;
 	max-width: 500px;
 	border: 1px solid #2376BC;
     background-color: #2376BC;
     color: #FFFFFF;
+}
+li
+{
+    margin-right: 10px;
+    float: right;
+}
+input[type=smallButton], input[type=refresh]
+{
+    margin-right: 10px;
+	float: right;
+    width: 30px;
+	height: 30px;
+	max-width: 500px;
+	border: 1px solid #d7d7d7;
+    background-color: #d7d7d7;
+    color: #FFFFFF;
+}
+input[type=checkbox]
+{
+	float: right;
+    margin-right;
+
+}
+html {
+    overflow-y: scroll; 
 }
 

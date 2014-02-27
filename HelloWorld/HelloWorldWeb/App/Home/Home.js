@@ -48,7 +48,7 @@
         newCB.setAttribute("id", CBid);
 
         // add the newly created element and its content into the DOM
-        var form = (catagory == 'req') ? "InputForm1" : "InputForm2";
+        var form = (catagory == 'req') ? "Requirements" : "References";
         my_div = document.getElementById(form);
         my_div.appendChild(newInp);
         my_div.appendChild(newCB);
@@ -69,15 +69,21 @@
         var n;
         for (var i = 0; i < refCount; i++) {
             current = "ref" + i;
-            needle = document.getElementById(current).value
-            n = document1.search(needle);
-            if (n == -1) {
-                id =current + "checkbox";
-                document.getElementById(id).checked = false;
+            needle = document.getElementById(current).value;
+            if (needle != "") {
+                n = document1.search(needle);
+                if (n == -1) {
+                    id = current + "checkbox";
+                    document.getElementById(id).checked = false;
+                }
+                else {
+                    id = current + "checkbox";
+                    document.getElementById(id).checked = true;
+                }
             }
             else {
                 id = current + "checkbox";
-                document.getElementById(id).checked = true;
+                document.getElementById(id).checked = false;
             }
         }
     }
@@ -147,9 +153,10 @@
                count++;
             }
         }
-        total+=count
+        var refChecked = count;
         x.setAttribute("value", parseFloat(count) / parseFloat(refCount));
         count = 0;
+
         //checks the requirements checkboxes
         for (var i = 0; i < reqCount; i++) {
             var current = "req" + i + "checkbox";
@@ -158,15 +165,25 @@
                 count++;
             }
         }
-        total += count
+        var reqChecked = count;
         var x = document.getElementById("progressBarReq");
         x.setAttribute("value", parseFloat(count) / parseFloat(reqCount));
+
         //updates the wordcount progress bar based on target wordcount
         var x = document.getElementById("progressBarWordCount");
-        x.setAttribute("value", parseFloat(wordCount()) / parseFloat(document.getElementById('target').value));
+        var value;
+        if (document.getElementById('target').value == 0) 
+            value = 1;
+        else 
+            value = wordCount() / document.getElementById('target').value;
+        x.setAttribute("value", value);
+
         //updates the total progress bar, weights word count as 50% and requirements/references as 50%
         var x = document.getElementById("progressBarTotal");
-        x.setAttribute("value", ((parseFloat(total) / parseFloat(reqCount + refCount)) * 0.5) + ((1250/2500)*0.5));
+        var boxesRef = (parseFloat(refChecked) / parseFloat(refCount));
+        var boxesReq = (parseFloat(reqChecked) / parseFloat(reqCount));
+        var total = (boxesRef * 0.25) + (boxesReq * 0.25) + (value * 0.5);
+        x.setAttribute("value", total);
         
     }
 
@@ -203,6 +220,14 @@
        
     }
     
+    function setVisibility(id, bool) {
+        var e = document.getElementById(id);
+        if (bool)
+            e.style.display = 'block';
+        else
+            e.style.display = 'none';
+    }
+    
     //word count function which replaces a unnecessary text and then counts the spaces in between words
     function wordCount() {
         s = document1;
@@ -216,16 +241,17 @@
     //simple function which calculates the upper and lower bounds of a word count given a target and percentage margin
     function calculateMargin() {
         var target = document.getElementById("target").value;
-        var margin = document.getElementById("margin").value;
-        var low = document.getElementById("low");
-        var high = document.getElementById("high");
+        if (target != 0) {
+            var margin = document.getElementById("margin").value;
+            var low = document.getElementById("low");
+            var high = document.getElementById("high");
 
-        var difference = target * (margin / 100);
-        var lowerBound = target - difference;
-        var upperBound = parseInt(target) + parseInt(difference);
-        low.setAttribute("value", lowerBound);
-        high.setAttribute("value", upperBound);
-
+            var difference = target * (margin / 100);
+            var lowerBound = target - difference;
+            var upperBound = parseInt(target) + parseInt(difference);
+            low.setAttribute("value", lowerBound);
+            high.setAttribute("value", upperBound);
+        }
     }
 
     
