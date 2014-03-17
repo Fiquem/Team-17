@@ -8,8 +8,7 @@
             // After the DOM is loaded, app-specific code can run.
             // Add any initialization logic to this function.
             
-            $('#newReqButton').click(addInsElement);
-            $('#inputReqButton').click(InputReq);
+            
             setTimeout(update, 1000)
 
         });
@@ -236,11 +235,20 @@
     //word count function which replaces a unnecessary text and then counts the spaces in between words
     function wordCount() {
         s = document1;
-        s = s.replace(/(^\s*)|(\s*$)/gi, "");
-        s = s.replace(/[ ]{2,}/gi, " ");
-        s = s.replace(/\n /, "\n");
-        //writeToPage(s.split(' ').length);
-        return s.split(' ').length;
+        //s = s.replace(/(^\s*)|(\s*$)/gi, "");     //old method
+        //s = s.replace(/[ ]{2,}/gi, " ");
+        //s = s.replace(/\n /, "\n");
+        ////writeToPage(s.split(' ').length);
+        //return s.split(' ').length;
+        try {                                         //new method
+            //the try catch is incase there is a big change in the document, this can bring up an error sometimes but the try catch fixes this
+            var word = s.match(/\S+/g);
+            document.getElementById("req0").value = ""+ word && word.length || 0;
+            return word && word.length || 0;
+        }
+        catch (err) {
+            return 0;
+        }
     }
 
     //simple function which calculates the upper and lower bounds of a word count given a target and percentage margin
