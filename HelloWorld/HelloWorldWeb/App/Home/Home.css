@@ -105,7 +105,9 @@ input[type=smallButton], input[type=refresh]
 input[type=checkbox]
 {
 	float: right;
-    margin-right;
+    margin-right: 10px;
+    height: 18px;
+    width: 18px;
 
 }
 html {
