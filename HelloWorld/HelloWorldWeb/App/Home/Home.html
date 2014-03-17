@@ -70,11 +70,12 @@
     </h1>
 
     <div id="Requirements">
-        <ul>
-            <li><input type="text" id="req0" size="35" placeholder="Enter a requirement here" maxlength="50" /></li>
-            <li><input type="checkbox" id="req0checkbox" /></li>
+  
+            <input type="text" id="req0" size="35" placeholder="Enter a requirement here" maxlength="50" />
+            <input type="checkbox" id="req0checkbox" />
+        <input type="deleteButton" value="X" id="req0button" onclick="removeBox('req0');" readonly />
             </br></br>
-        </ul>
+     
     </div>
 
 
@@ -88,6 +89,7 @@
     <div id="References">
             <input type="text" id="ref0" size="35" placeholder="Enter a reference here" maxlength="50" />
             <input type="checkbox" id="ref0checkbox" />
+        <input type="deleteButton" value="X" id="ref0button" onclick="removeBox('ref0');" readonly />
             </br></br>
        
     </div>

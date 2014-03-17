@@ -48,12 +48,23 @@
         newCB.setAttribute("type", "checkbox");
         newCB.setAttribute("id", CBid);
 
+        //create and insert coorresponding delete button
+        var newButton = document.createElement("input");
+        var butid = reqId + "button";
+
+        newButton.setAttribute("type", "deleteButton");
+        newButton.setAttribute("value", "X");
+        newButton.setAttribute("id", butid);
+        newButton.setAttribute("onclick", "removeBox(" + reqId + ");");
+        newButton.setAttribute("readonly");
+        
+
         // add the newly created element and its content into the DOM
         var form = (catagory == 'req') ? "Requirements" : "References";
         my_div = document.getElementById(form);
         my_div.appendChild(newInp);
         my_div.appendChild(newCB);
-
+        my_div.appendChild(newButton);
         //BR because I can't br with "br"
         var p = document.createElement("p");
         my_div.appendChild(p);
@@ -264,6 +275,38 @@
             var upperBound = parseInt(target) + parseInt(difference);
             low.setAttribute("value", lowerBound);
             high.setAttribute("value", upperBound);
+        }
+    }
+
+    function removeBox(id) {
+        var input;
+        if (typeof id.id === 'undefined') {
+            input = id;
+        }
+        else {
+            input = id.id;
+        }
+        var box = document.getElementById(input);
+        var checkBox = document.getElementById(input + "checkbox");
+        var button = document.getElementById(input + "button");
+        var num = parseInt(input.match(/\d+/));
+        var catagory = input.substr(0, 3);
+        box.parentElement.removeChild(box);
+        checkBox.parentElement.removeChild(checkBox);
+        button.parentElement.removeChild(button);
+        var count = (catagory=='req') ? reqCount:refCount;
+        for (var i = (num+1); i < count; i++) {
+            document.getElementById(catagory + i).id = (catagory+ (i-1));
+            document.getElementById(catagory + i + "checkbox").id = (catagory + (i - 1)) + "checkbox";
+            document.getElementById(catagory + i + "button").setAttribute("onclick", "removeBox(" + (catagory + (i - 1)) + ");");
+            document.getElementById(catagory + i + "button").id = (catagory + (i - 1)) + "button";
+            
+        }
+        if (catagory == 'req') {
+            reqCount -= 1;
+        }
+        else {
+            refCount -= 1;
         }
     }
 

@@ -2,6 +2,12 @@
 {
     position:relative;
 }
+input[type=deleteButton]:hover
+{
+    cursor:pointer;
+    background-color: #2376BC;
+    border: 1px solid #FFFFFF;
+}
 input[type=smallButton]:hover
 {  
     cursor:pointer;
@@ -68,6 +74,22 @@ li
 {
     margin-right: 10px;
     float: right;
+}
+input[type=deleteButton]
+{
+    margin-right: 10px;
+
+    text-align: center;
+	float: right;
+    width: 18px;
+	height: 18px;
+	max-width: 18px;
+	border: 1px solid #d7d7d7;
+    background-color: #d7d7d7;
+    color: #FFFFFF;
+    font-size: small;
+    line-height: 70%;
+    
 }
 input[type=smallButton], input[type=refresh]
 {
