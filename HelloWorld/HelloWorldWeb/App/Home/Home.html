@@ -43,7 +43,7 @@
         <progress id="progressBarWordCount" value="0" max="1"></progress>
     </h1>
 
-    <div id="WordCount">
+    <div id="WordCount" style="display:block;">
         <p>
             Word Count:
             <input type="text" id="target" size="5" placeholder="Target" maxlength="20" />
@@ -69,13 +69,13 @@
         <progress id="progressBarReq" value="0"></progress>
     </h1>
 
-    <div id="Requirements">
-  
-            <input type="text" id="req0" size="35" placeholder="Enter a requirement here" maxlength="50" />
-            <input type="checkbox" id="req0checkbox" />
+    <div id="Requirements" style="display:block;">
+
+        <input type="text" id="req0" size="35" placeholder="Enter a requirement here" maxlength="50" />
+        <input type="checkbox" id="req0checkbox" />
         <input type="deleteButton" value="X" id="req0button" onclick="removeBox('req0');" readonly />
-            </br></br>
-     
+        </br></br>
+
     </div>
 
 
@@ -86,12 +86,12 @@
         <progress id="progressBarRef" value="0"></progress>
     </h1>
 
-    <div id="References">
-            <input type="text" id="ref0" size="35" placeholder="Enter a reference here" maxlength="50" />
-            <input type="checkbox" id="ref0checkbox" />
+    <div id="References" style="display:block;">
+        <input type="text" id="ref0" size="35" placeholder="Enter a reference here" maxlength="50" />
+        <input type="checkbox" id="ref0checkbox" />
         <input type="deleteButton" value="X" id="ref0button" onclick="removeBox('ref0');" readonly />
-            </br></br>
-       
+        </br></br>
+
     </div>
 
     <div id="Output"></div>
