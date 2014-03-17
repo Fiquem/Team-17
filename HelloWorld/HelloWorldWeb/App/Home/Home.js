@@ -243,7 +243,7 @@
         try {                                         //new method
             //the try catch is incase there is a big change in the document, this can bring up an error sometimes but the try catch fixes this
             var word = s.match(/\S+/g);
-            document.getElementById("req0").value = ""+ word && word.length || 0;
+            //document.getElementById("req0").value = ""+ word && word.length || 0; //Used for testing
             return word && word.length || 0;
         }
         catch (err) {
