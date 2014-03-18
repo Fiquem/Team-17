@@ -37,7 +37,7 @@
 
         newInp.setAttribute("type", "text");
         newInp.setAttribute("id", reqId);
-        newInp.setAttribute("size", "35");
+        newInp.setAttribute("size", "31");
         newInp.setAttribute("placeholder", "Enter a " + ((catagory == 'req')?"requirement":"reference") + " here");
         newInp.setAttribute("MaxLength", "50");
 
