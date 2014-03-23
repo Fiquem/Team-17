@@ -16,6 +16,9 @@
     
     var reqCount = 1;
     var refCount = 1;
+    var structCount = 1;
+    var structSubPointsCount = new Array();
+    structSubPointsCount[0] = 0;
     var document1 = "";
 
     function InputReq() {
@@ -33,12 +36,30 @@
         // create a new insert element
         // and give it some content
         var newInp = document.createElement("input");
-        var reqId = catagory + ((catagory == 'req')?reqCount++:refCount++);
-
+        var reqId;
+        var form;
+        switch (catagory) {
+            case 'req':
+                reqId = catagory + reqCount++;
+                newInp.setAttribute("placeholder", "Enter a requirement here");
+                form = "Requirements"; //name of the division
+                break;
+            case 'ref':
+                reqId = catagory + refCount++;
+                newInp.setAttribute("placeholder", "Enter a requirement here");
+                form = "References";//name of the division
+                break;
+            case 'str':
+                structSubPointsCount[structCount] = 0;
+                reqId = catagory + structCount++;
+                newInp.setAttribute("placeholder", "Point " + structCount);
+                newInp.setAttribute("onkeypress", "return addSubPoint(event," + reqId + ");")
+                form = "Structure";//name of the division
+                
+        }
         newInp.setAttribute("type", "text");
         newInp.setAttribute("id", reqId);
         newInp.setAttribute("size", "31");
-        newInp.setAttribute("placeholder", "Enter a " + ((catagory == 'req')?"requirement":"reference") + " here");
         newInp.setAttribute("MaxLength", "50");
 
         //create and insert corresponding checkbox
@@ -47,7 +68,7 @@
 
         newCB.setAttribute("type", "checkbox");
         newCB.setAttribute("id", CBid);
-
+        newCB.setAttribute("tabindex", "-1");
         //create and insert coorresponding delete button
         var newButton = document.createElement("input");
         var butid = reqId + "button";
@@ -57,17 +78,89 @@
         newButton.setAttribute("id", butid);
         newButton.setAttribute("onclick", "removeBox(" + reqId + ");");
         newButton.setAttribute("readonly");
-        
-
+        newButton.setAttribute("tabindex", "-1");
         // add the newly created element and its content into the DOM
-        var form = (catagory == 'req') ? "Requirements" : "References";
+       
         my_div = document.getElementById(form);
         my_div.appendChild(newInp);
         my_div.appendChild(newCB);
         my_div.appendChild(newButton);
+        //makes div for subpoints
+        switch (catagory) {
+            case 'req':
+
+                break;
+            case 'ref':
+
+                break;
+            case 'str':
+                var newDiv = document.createElement("div");
+                newDiv.setAttribute("id", reqId+"div");
+                newDiv.setAttribute("style", "display:block;");
+                my_div.appendChild(newDiv);
+        }
         //BR because I can't br with "br"
         var p = document.createElement("p");
         my_div.appendChild(p);
+    }
+
+    function addSubPoint(event, catagory) {
+        if (event.keyCode == 13 || event.which == 13) {
+            var input;
+            if (typeof catagory.id === 'undefined') {
+                input = catagory;
+            }
+            else {
+                input = catagory.id;
+            }
+
+            var newInp = document.createElement("input");
+            var num = parseInt(input.match(/\d+/));
+            var reqId;
+            switch (input.replace(/[0-9]/g, '')) {
+                case 'str':// str0/sub0
+                    reqId = input + "_sub" + structSubPointsCount[num]++;
+                    newInp.setAttribute("placeholder", "Subpoint " + structSubPointsCount[num]);
+                    form = "Structure";//name of the division
+                    break;
+            }
+           
+            newInp.setAttribute("type", "text");
+            newInp.setAttribute("id", reqId);
+            newInp.setAttribute("size", "26");
+            newInp.setAttribute("MaxLength", "50");
+            newInp.setAttribute("style", "margin-left: 30px; height: 20px; line-height: 70%;")
+            //create and insert corresponding checkbox
+            var newCB = document.createElement("input");
+            var CBid = reqId + "checkbox";
+
+            newCB.setAttribute("type", "checkbox");
+            newCB.setAttribute("id", CBid);
+            newCB.setAttribute("tabindex", "-1");
+            newCB.setAttribute("style", "height: 16px; width: 16px;");
+            //create and insert coorresponding delete button
+            var newButton = document.createElement("input");
+            var butid = reqId + "button";
+
+            newButton.setAttribute("type", "deleteButton");
+            newButton.setAttribute("value", "X");
+            newButton.setAttribute("id", butid);
+            newButton.setAttribute("onclick", "return removeSubBox(" + reqId + ");");
+            newButton.setAttribute("readonly");
+            newButton.setAttribute("tabindex", "-1");
+            newButton.setAttribute("style", "height: 18px; width: 18px;");
+            // add the newly created element and its content into the DOM
+
+            my_div = document.getElementById(input + "div");
+            my_div.appendChild(newInp);
+            my_div.appendChild(newCB);
+            my_div.appendChild(newButton);
+            //BR because I can't br with "br"
+            var p = document.createElement("p");
+          //  my_div.appendChild(p);
+
+
+        }
     }
 
     function writeToPage(text) {
@@ -278,6 +371,42 @@
         }
     }
 
+
+
+    function removeSubBox(id) {
+        var input;
+        if (typeof id.id === 'undefined') {
+            input = id;
+        }
+        else {
+            input = id.id;
+        }
+        var box = document.getElementById(input);
+        var checkBox = document.getElementById(input + "checkbox");
+        var button = document.getElementById(input + "button");
+        var catagories = input.replace(/[0-9]/g, '').split("_");  //splits name into two parts and removes numbers  str0/sub1 -> {str,sub}
+        var numbers = input.replace(/[A-Za-z$-]/g, "").split("_");
+        
+        box.parentElement.removeChild(box);
+        checkBox.parentElement.removeChild(checkBox);
+        button.parentElement.removeChild(button);
+
+        for (var i = (parseInt(numbers[1]) + 1) ; i < structSubPointsCount[numbers[0]]; i++) {
+            document.getElementById(catagories[0] + numbers[0] + "_" + catagories[1] + i).setAttribute("placeholder", "Subpoint " + i);
+            document.getElementById(catagories[0] + numbers[0] + "_" + catagories[1] + i).id = (catagories[0] + numbers[0] + "_" + catagories[1] + (i - 1));
+            document.getElementById(catagories[0] + numbers[0] + "_" + catagories[1] + i + "checkbox").id = (catagories[0] + numbers[0] + "_" + catagories[1] + (i - 1)) + "checkbox";
+            document.getElementById(catagories[0] + numbers[0] + "_" + catagories[1] + i + "button").setAttribute("onclick", "removeSubBox(" + (catagories[0] + numbers[0] + "_" + catagories[1] + (i - 1)) + ");");
+            document.getElementById(catagories[0] + numbers[0] + "_" + catagories[1] + i + "button").id = (catagories[0] + numbers[0] + "_" + catagories[1] + (i - 1)) + "button";
+        }
+
+        structSubPointsCount[numbers[0]] -= 1;
+
+
+    }
+
+
+
+    //deletes normal boxes (doesn't work for sub boxes)
     function removeBox(id) {
         var input;
         if (typeof id.id === 'undefined') {
@@ -290,24 +419,72 @@
         var checkBox = document.getElementById(input + "checkbox");
         var button = document.getElementById(input + "button");
         var num = parseInt(input.match(/\d+/));
-        var catagory = input.substr(0, 3);
+        var catagory = input.replace(/[0-9]/g, '');
+        switch (catagory) {
+            case 'str':
+                var div = document.getElementById(catagory + num + "div");
+                div.parentElement.removeChild(div);
+        }
         box.parentElement.removeChild(box);
         checkBox.parentElement.removeChild(checkBox);
         button.parentElement.removeChild(button);
-        var count = (catagory=='req') ? reqCount:refCount;
-        for (var i = (num+1); i < count; i++) {
+        var count;
+        switch (catagory) {
+            case 'req':
+                count = reqCount;
+                break;
+            case 'ref':
+                count = refCount;
+                break;
+            case 'str':
+                count = structCount;
+                break
+        }
+        for (var i = (num + 1) ; i < count; i++) {
+            switch (catagory) {
+                case 'req':
+                    //incase of anything unique
+                    break;
+                case 'ref':
+                    //incase of anything unique
+                    break;
+                case 'str':
+                    document.getElementById(catagory + i).setAttribute("placeholder", "Point " + i);
+                    for (var j = 0; j < structSubPointsCount[i]; j++) {
+                        document.getElementById(catagory+ i + "_sub" + j).id = (catagory + (i-1) + "_sub" + j);
+                    }
+                    document.getElementById(catagory + i).setAttribute("onkeypress", "addSubPoint(event," + catagory + (i - 1) + ");");
+                    document.getElementById(catagory + i + "div").id = (catagory + (i - 1)) + "div";
+                    break;
+            }
             document.getElementById(catagory + i).id = (catagory+ (i-1));
             document.getElementById(catagory + i + "checkbox").id = (catagory + (i - 1)) + "checkbox";
             document.getElementById(catagory + i + "button").setAttribute("onclick", "removeBox(" + (catagory + (i - 1)) + ");");
             document.getElementById(catagory + i + "button").id = (catagory + (i - 1)) + "button";
+           
+        }
             
-        }
-        if (catagory == 'req') {
-            reqCount -= 1;
-        }
-        else {
-            refCount -= 1;
-        }
+            switch (catagory) {
+                case 'req':
+                    reqCount -= 1;
+                    break;
+                case 'ref':
+                    refCount -= 1;
+                    break;
+                case 'str':
+                    for (var i = num; i < structCount; i++) {
+                        structSubPointsCount[i] = structSubPointsCount[i + 1];
+                    }
+                    structCount -= 1;
+                    break;
+                
+            }
     }
+
+    
+
+    
+
+
 
     
