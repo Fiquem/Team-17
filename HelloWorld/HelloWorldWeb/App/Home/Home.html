@@ -21,97 +21,129 @@
 
 
 </head>
-<body>
+<body id="main">
     <!-- Header -->
     <div id="header">
         <!-- <span id="icon"><img  id="homeIcon" width="0" height="0" src="../../Images/homeicon.png" alt="homeIcon" /></span> -->
+        <input type="backButton" style="display:none" value="<" id="back" onclick="resetTemplate(); setVisibility('back', false); setVisibility('help', true); " tabindex="-1" readonly />
+        <input type="backButton" value="?" id="help" onclick="loadHelp();" tabindex="-1" readonly />
         <span id="category">Home</span>
         <!-- <span id="help"><img id="helpImage" tabindex="2" width="28" height="28" src="../../Images/helpicon.png" alt="help" /></span> -->
     </div>
+    
+    <div id="template" style="display:none">
+        <h4>
+            Assignment Progress
+            <!---<input type="refresh" value="Refresh" id="search" onclick="update();" />---->
+            <progress id="progressBarTotal" value="0" max="1"></progress>
+        </h4>
 
-    <h4>
-        Assignment Progress
-        <!---<input type="refresh" value="Refresh" id="search" onclick="update();" />---->
-        <progress id="progressBarTotal" value="0" max="1"></progress>
-    </h4>
 
+        <!-- Search -->
+        <h1 id="WordCountHead">
+            Word Count
+            <input type="smallButton" value="Hide" id="hide1" onclick="toggleVisibility('WordCount', 'hide1');" tabindex="-1" readonly />
+            <progress id="progressBarWordCount" value="0" max="1" tabindex="-1"></progress>
+        </h1>
 
-    <!-- Search -->
-    <h1>
-        Word Count
-        <input type="smallButton" value="Hide" id="hide1" onclick="toggleVisibility('WordCount', 'hide1');" tabindex="-1" readonly />
-        <progress id="progressBarWordCount" value="0" max="1" tabindex="-1"></progress>
-    </h1>
+        <div id="WordCount" style="display:block;">
+            <p>
+                Word Count:
+                <input type="text" id="target" size="5" placeholder="Target" maxlength="20" />
 
-    <div id="WordCount" style="display:block;">
-        <p>
-            Word Count:
-            <input type="text" id="target" size="5" placeholder="Target" maxlength="20" />
+                Margin:
+                <input type="text" id="margin" size="5" placeholder="%" maxlength="20" />
+            </p>
+            <p>
+                Min Word Count:
+                <input type="text" id="low" size="5" value="" maxlength="20" />
+            </p>
+            <p>
+                Max Word Count:
+                <input type="text" id="high" size="5" value="" maxlength="20" />
+            </p>
 
-            Margin:
-            <input type="text" id="margin" size="5" placeholder="%" maxlength="20" />
-        </p>
-        <p>
-            Min Word Count:
-            <input type="text" id="low" size="5" value="" maxlength="20" />
-        </p>
-        <p>
-            Max Word Count:
-            <input type="text" id="high" size="5" value="" maxlength="20" />
-        </p>
-
-    </div>
-
-    <h1>
-        Structure
-        <input type="smallButton" value="Hide" id="hide2" onclick="toggleVisibility('Structure', 'hide2');" tabindex="-1"  readonly />
-        <input type="smallButton" value="Add" id="newReqButton1" onclick="addInsElement('str'); setVisibility('Structure', true);" tabindex="-1"  readonly />
-        <progress id="progressBarStruct" value="0"></progress>
-    </h1>
-
-    <div id="Structure" style="display:block;">
-
-        <input type="text" id="str0" size="31" placeholder="Point 1" maxlength="50" onkeypress="return addSubPoint(event, 'str0');" />
-        <input type="checkbox" id="str0checkbox" tabindex="-1" />
-        <input type="deleteButton" value="X" id="str0button" onclick="removeBox('str0');" tabindex="-1" readonly />
-        <div id="str0div" style="display:block; " tabindex="-1">
         </div>
 
+        <h1 id="StructureHead">
+            Structure
+            <input type="smallButton" value="Hide" id="hide2" onclick="toggleVisibility('Structure', 'hide2');" tabindex="-1"  readonly />
+            <input type="smallButton" value="Add" id="newReqButton1" onclick="addInsElement('str'); setVisibility('Structure', true);" tabindex="-1"  readonly />
+            <progress id="progressBarStruct" value="0"></progress>
+        </h1>
+
+        <div id="Structure" style="display:block;">
+            <input type="text" id="str0" size="29" placeholder="Point 1" maxlength="50" onkeypress="return addSubPoint(event, 'str0');" />
+            <input type="checkbox" id="str0checkbox" tabindex="-1" />
+            <input type="deleteButton" value="X" id="str0button" onclick="removeBox('str0');" tabindex="-1" readonly />
+            <div id="str0div" style="display:block; " tabindex="-1"></div>
+            <br />
+        </div>
+
+        <h1 id="RefHead">
+            References
+            <input type="smallButton" value="Hide" id="hide3" onclick="toggleVisibility('References', 'hide3');" readonly tabindex="-1" />
+            <input type="smallButton" value="Add" id="newReqButton3" onclick="addInsElement('ref'); setVisibility('References', true);" readonly tabindex="-1" />
+            <progress id="progressBarRef" value="0"></progress>
+        </h1>
+
+        <div id="References" style="display:block;">
+            <input type="text" id="ref0" size="29" placeholder="Enter a reference here" maxlength="50" />
+            <input type="checkbox" id="ref0checkbox" tabindex="-1" />
+            <input type="deleteButton" value="X" id="ref0button" onclick="removeBox('ref0');" readonly tabindex="-1" />
+            </br></br>
+
+        </div>
+        
+        <h1 id="BooksHead">
+            Books
+            <input type="smallButton" value="Hide" id="hide4" onclick="toggleVisibility('Books', 'hide4');" readonly tabindex="-1" />
+            <input type="smallButton" value="Add" id="newReqButton2" onclick="addInsElement('book'); setVisibility('Books', true);" readonly tabindex="-1" />
+            <progress id="progressBarBooks" value="0"></progress>
+        </h1>
+
+        <div id="Books" style="display:block;">
+
+            <input type="text" id="book0" size="29" placeholder="Enter a book title here" maxlength="50" />
+            <input type="checkbox" id="book0checkbox" tabindex="-1" />
+            <input type="deleteButton" value="X" id="book0button" onclick="removeBox('book0');" readonly tabindex="-1" />
+            </br></br>
+
+        </div>
+
+        <h1 id="KeyWordsHead">
+            Key Words
+            <input type="smallButton" value="Hide" id="hide5" onclick="toggleVisibility('KeyWords', 'hide5');" readonly tabindex="-1" />
+            <input type="smallButton" value="Add" id="newReqButton3" onclick="addInsElement('key'); setVisibility('KeyWords', true);" readonly tabindex="-1" />
+            <progress id="progressBarKeyWords" value="0"></progress>
+        </h1>
+
+        <div id="KeyWords" style="display:block;">
+            <input type="text" id="key0" size="29" placeholder="Enter a key word here" maxlength="50" />
+            <input type="checkbox" id="key0checkbox" tabindex="-1" />
+            <input type="deleteButton" value="X" id="key0button" onclick="removeBox('key0');" readonly tabindex="-1" />
+            </br></br>
+
+        </div>
+        <div id="output"></div>
+
+    </div>
+    <div id="menu" style="display:block" >
+        Please choose the template which best suits your essay           
+        <br />
+        <input type="menuButton" value="Arts" id="menu0" onclick="setTemplate('Academic'); setVisibility('back', true);" readonly tabindex="-1" />
+        <input type="menuButton" value="Sciences" id="menu1" onclick="setTemplate('Science'); setVisibility('back', true);" readonly tabindex="-1" />
+        <input type="menuButton" value="Creative Writing" id="menu2" onclick="setTemplate('Creative Writing'); setVisibility('back', true);" readonly tabindex="-1" />
+        <input type="menuButton" value="Foreign Languages" id="menu3" onclick="setTemplate('Foreign Language'); setVisibility('back', true);" readonly tabindex="-1" />
+    </div>
+    <div id="helpSection" style="display:none">
+        HELP SECTION GOES HERE
+
 
     </div>
 
-    <h1>
-        Requirements
-        <input type="smallButton" value="Hide" id="hide2" onclick="toggleVisibility('Requirements', 'hide2');" readonly tabindex="-1" />
-        <input type="smallButton" value="Add" id="newReqButton2" onclick="addInsElement('req'); setVisibility('Requirements', true);" readonly tabindex="-1" />
-        <progress id="progressBarReq" value="0"></progress>
-    </h1>
-
-    <div id="Requirements" style="display:block;">
-
-        <input type="text" id="req0" size="31" placeholder="Enter a requirement here" maxlength="50"/>
-        <input type="checkbox" id="req0checkbox" tabindex="-1" />
-        <input type="deleteButton" value="X" id="req0button" onclick="removeBox('req0');" readonly tabindex="-1" />
-        </br></br>
-
-    </div>
-
-
-    <h1>
-        References
-        <input type="smallButton" value="Hide" id="hide3" onclick="toggleVisibility('References', 'hide3');" readonly tabindex="-1" />
-        <input type="smallButton" value="Add" id="newReqButton3" onclick="addInsElement('ref'); setVisibility('References', true);" readonly tabindex="-1" />
-        <progress id="progressBarRef" value="0"></progress>
-    </h1>
-
-    <div id="References" style="display:block;">
-        <input type="text" id="ref0" size="31" placeholder="Enter a reference here" maxlength="50" />
-        <input type="checkbox" id="ref0checkbox" tabindex="-1" />
-        <input type="deleteButton" value="X" id="ref0button" onclick="removeBox('ref0');" readonly tabindex="-1" />
-        </br></br>
-
-    </div>
-
-    <div id="Output" tabindex="-1"></div>
 </body>
+
+
 </html>
+
