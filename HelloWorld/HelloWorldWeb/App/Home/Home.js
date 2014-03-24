@@ -17,6 +17,7 @@
     var keyCount = 1;
     var bookCount = 1;
     var strCount = 1;
+    var textColour;
     var globalTemplate;
     var structSubPointsCount = new Array();
     structSubPointsCount[0] = 0;
@@ -72,7 +73,7 @@
         }
         newInp.setAttribute("type", "text");
         newInp.setAttribute("id", reqId);
-        newInp.setAttribute("size", "31");
+        newInp.setAttribute("size", "29");
         newInp.setAttribute("MaxLength", "50");
 
         //create and insert corresponding checkbox
@@ -140,7 +141,7 @@
            
             newInp.setAttribute("type", "text");
             newInp.setAttribute("id", reqId);
-            newInp.setAttribute("size", "26");
+            newInp.setAttribute("size", "25");
             newInp.setAttribute("MaxLength", "50");
             newInp.setAttribute("style", "margin-left: 30px; height: 20px; line-height: 70%;")
             //create and insert corresponding checkbox
@@ -285,7 +286,7 @@
         //checks the book checkboxes
         var bookChecked = countCheckboxes('book');
         x = document.getElementById("progressBarBooks");
-        var boxesBook = parseFloat(bookChecked) / parseFloat(strCount);
+        var boxesBook = parseFloat(bookChecked) / parseFloat(bookCount);
         x.setAttribute("value", boxesBook);
 
         //checks the key word checkboxes
@@ -301,6 +302,15 @@
             value = 1;
         else 
             value = wordCount() / document.getElementById('target').value;
+        var y;
+        if (document.getElementById('margin').value == "")
+            y = 100;
+        else
+            y = parseInt(document.getElementById('margin').value) + 100
+        if (value * 100 > y )
+            x.style.color = "red";
+        else
+            x.style.color = "#4f9ad9";
         if (value > 1)
             value = 1;
         x.setAttribute("value", value);
