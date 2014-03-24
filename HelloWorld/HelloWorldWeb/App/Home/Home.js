@@ -7,16 +7,17 @@
         $(document).ready(function () {
             // After the DOM is loaded, app-specific code can run.
             // Add any initialization logic to this function.
-            
-            
+         
             setTimeout(update, 1000)
-
         });
     };
     
     var reqCount = 1;
     var refCount = 1;
-    var structCount = 1;
+    var keyCount = 1;
+    var bookCount = 1;
+    var strCount = 1;
+    var globalTemplate;
     var structSubPointsCount = new Array();
     structSubPointsCount[0] = 0;
     var document1 = "";
@@ -31,7 +32,7 @@
         }
         document.getElementById("Requirements").innerText = min + max + reqs;
     }
-
+    
     function addInsElement(catagory) {
         // create a new insert element
         // and give it some content
@@ -46,15 +47,27 @@
                 break;
             case 'ref':
                 reqId = catagory + refCount++;
-                newInp.setAttribute("placeholder", "Enter a requirement here");
+                newInp.setAttribute("placeholder", "Enter a reference here");
                 form = "References";//name of the division
                 break;
             case 'str':
-                structSubPointsCount[structCount] = 0;
-                reqId = catagory + structCount++;
-                newInp.setAttribute("placeholder", "Point " + structCount);
+                structSubPointsCount[strCount] = 0;
+                reqId = catagory + strCount++;
+                newInp.setAttribute("placeholder", "Point " + strCount);
                 newInp.setAttribute("onkeypress", "return addSubPoint(event," + reqId + ");")
                 form = "Structure";//name of the division
+                break;
+            case 'key':
+                reqId = catagory + keyCount++;
+                newInp.setAttribute("placeholder", "Enter a key word here");
+                form = "KeyWords";//name of the division
+                break;
+            case 'book':
+                reqId = catagory + bookCount++;
+                newInp.setAttribute("placeholder", "Enter a book title here");
+                form = "Books"; //name of the division
+                break;
+
                 
         }
         newInp.setAttribute("type", "text");
@@ -168,12 +181,21 @@
     }
 
     //loops through all references and searches the whole document for each
-    function refSearch() {
+    function refSearch(type) {
         var current;
         var needle;
         var n;
-        for (var i = 0; i < refCount; i++) {
-            current = "ref" + i;
+        var count;
+        switch (type) {
+            case 'ref':
+                count = refCount;
+                break;
+            case 'key':
+                count = keyCount;
+                break;
+        }
+        for (var i = 0; i < count; i++) {
+            current = type + i;
             needle = document.getElementById(current).value;
             if (needle != "") {
                 n = document1.search(needle);
@@ -246,33 +268,31 @@
     }
     
     function progress() {     
-        var x = document.getElementById("progressBarRef");
         var total = 0;
-        var count = 0;
         var id;
         //checks the references checkboxes
-        for (var i = 0; i < refCount; i++) {
-            var current = "ref" + i + "checkbox";
-            var box = document.getElementById(current)
-            if (box.checked) {
-               count++;
-            }
-        }
-        var refChecked = count;
-        x.setAttribute("value", parseFloat(count) / parseFloat(refCount));
-        count = 0;
+        var refChecked = countCheckboxes('ref');
+        var x = document.getElementById("progressBarRef");
+        var boxesRef = parseFloat(refChecked) / parseFloat(refCount);
+        x.setAttribute("value", boxesRef);
 
-        //checks the requirements checkboxes
-        for (var i = 0; i < reqCount; i++) {
-            var current = "req" + i + "checkbox";
-            var box = document.getElementById(current)
-            if (box.checked) {
-                count++;
-            }
-        }
-        var reqChecked = count;
-        var x = document.getElementById("progressBarReq");
-        x.setAttribute("value", parseFloat(count) / parseFloat(reqCount));
+        //checks the structure checkboxes
+        var structChecked = countCheckboxes('str');
+        x = document.getElementById("progressBarStruct");
+        var boxesStr = parseFloat(structChecked) / parseFloat(strCount);
+        x.setAttribute("value", boxesStr);
+
+        //checks the book checkboxes
+        var bookChecked = countCheckboxes('book');
+        x = document.getElementById("progressBarBooks");
+        var boxesBook = parseFloat(bookChecked) / parseFloat(strCount);
+        x.setAttribute("value", boxesBook);
+
+        //checks the key word checkboxes
+        var keyChecked = countCheckboxes('key');
+        x = document.getElementById("progressBarKeyWords");
+        var boxesKey = parseFloat(keyChecked) / parseFloat(keyCount);
+        x.setAttribute("value", boxesKey);
 
         //updates the wordcount progress bar based on target wordcount
         var x = document.getElementById("progressBarWordCount");
@@ -287,18 +307,57 @@
 
         //updates the total progress bar, weights word count as 50% and requirements/references as 50%
         var x = document.getElementById("progressBarTotal");
-        var boxesRef = (parseFloat(refChecked) / parseFloat(refCount));
-        var boxesReq = (parseFloat(reqChecked) / parseFloat(reqCount));
-        var total = (boxesRef * 0.25) + (boxesReq * 0.25) + (value * 0.5);
-        x.setAttribute("value", total);
-        
+        var total;
+        switch (globalTemplate) {
+            case 'Academic':
+                total = (boxesRef * 0.25) + (boxesStr * 0.25) + (value * 0.5);
+                break;
+            case 'Foreign Language':
+                total = (boxesRef * 0.2) + (boxesStr * 0.2) + (boxesKey * 0.2) + (value * 0.4);
+                break;
+            case 'Science':
+                total = (boxesRef * 0.5) + (boxesStr * 0.5);
+                break;
+            case 'Creative Writing':
+                total = (boxesStr * 0.5) + (value * 0.5);
+                break;
+        }
+        x.setAttribute("value", total); 
+    }
+
+    function countCheckboxes(type) {
+        var total;
+        var count = 0;
+        switch (type) {
+            case 'str':
+                total = strCount;
+                break;
+            case 'ref':
+                total = refCount;
+                break;
+            case 'key':
+                total = keyCount;
+                break;
+            case 'book':
+                total = bookCount;
+                break;
+        }
+        for (var i = 0; i < total; i++) {
+            var current = type + i + "checkbox";
+            var box = document.getElementById(current)
+            if (box.checked) {
+                count++;
+            }
+        }
+        return count;
     }
 
     //reads in the file as text, searches it for references, counts the words, updates the progress bars and then deletes the file again.
     function update() {
         getFileData();
         calculateMargin();
-        refSearch();
+        refSearch('ref');
+        refSearch('key');
         progress();
         document1 = "";
         setTimeout(update, 500);
@@ -319,11 +378,13 @@
         var b = document.getElementById(buttonID);
         if (e.style.display == 'block') {
             e.style.display = 'none';
-            b.setAttribute("value", "Show");
+            if(buttonID != '')
+                b.setAttribute("value", "Show");
         }
         else {
             e.style.display = 'block';
-            b.setAttribute("value", "Hide");
+            if (buttonID != '')
+                b.setAttribute("value", "Hide");
         }
        
     }
@@ -370,8 +431,71 @@
             high.setAttribute("value", upperBound);
         }
     }
+    
+    function setTemplate(template) {
+        globalTemplate = template;
+        setVisibility('menu', false);
+        setVisibility('help', false);
+        setVisibility('template', true);
+        switch (template) {
+            case 'Foreign Language':
+                setVisibility('Books', false);
+                setVisibility('BooksHead', false);
+                //setVisibilty('Links', false);
+                //setVisibilty('LinksHead', false);
+                break;
+            case 'Science':
+                setVisibility('Books', false);
+                setVisibility('BooksHead', false);
+                setVisibility('WordCount', false);
+                setVisibility('WordCountHead', false);
+                setVisibility('KeyWords', false);
+                setVisibility('KeyWordsHead', false);
+                break;
+            case 'Creative Writing':
+                setVisibility('Books', false);
+                setVisibility('BooksHead', false);
+                setVisibility('KeyWords', false);
+                setVisibility('KeyWordsHead', false);
+                setVisibility('References', false);
+                setVisibility('RefHead', false);
+                //setVisibility('Links', false);
+                //setVisibility('LinksHead', false);
+                break;
+            case 'Academic':
+                //setVisibility('Links', false);
+                //setVisibility('LinksHead', false);
+                setVisibility('KeyWords', false);
+                setVisibility('KeyWordsHead', false);
+                break;
+        }
+    }
+    
+    function resetTemplate() {
+        setVisibility('template', false);
+        setVisibility('menu', true);
+        setVisibility('helpSection', false);
+        setVisibility('Books', true);
+        setVisibility('BooksHead', true);
+        setVisibility('WordCount', true);
+        setVisibility('WordCountHead', true);
+        setVisibility('KeyWords', true);
+        setVisibility('KeyWordsHead', true);
+        setVisibility('References', true);
+        setVisibility('RefHead', true);
+        setVisibility('Structure', true);
+        setVisibility('StructureHead', true);
+        //setVisibility('Links', true);
+        //setVisibility('LinksHead', true);
+    }
 
-
+    function loadHelp() {
+        setVisibility('template', false);
+        setVisibility('menu', false);
+        setVisibility('help', false);
+        setVisibility('helpSection', true);
+        setVisibility('back', true);
+    }
 
     function removeSubBox(id) {
         var input;
@@ -437,8 +561,11 @@
                 count = refCount;
                 break;
             case 'str':
-                count = structCount;
+                count = strCount;
                 break
+            case 'key':
+                count = keyCount;
+                break;
         }
         for (var i = (num + 1) ; i < count; i++) {
             switch (catagory) {
@@ -456,6 +583,8 @@
                     document.getElementById(catagory + i).setAttribute("onkeypress", "addSubPoint(event," + catagory + (i - 1) + ");");
                     document.getElementById(catagory + i + "div").id = (catagory + (i - 1)) + "div";
                     break;
+                case 'key':
+                    break;
             }
             document.getElementById(catagory + i).id = (catagory+ (i-1));
             document.getElementById(catagory + i + "checkbox").id = (catagory + (i - 1)) + "checkbox";
@@ -472,12 +601,14 @@
                     refCount -= 1;
                     break;
                 case 'str':
-                    for (var i = num; i < structCount; i++) {
+                    for (var i = num; i < strCount; i++) {
                         structSubPointsCount[i] = structSubPointsCount[i + 1];
                     }
-                    structCount -= 1;
+                    strCount -= 1;
                     break;
-                
+                case 'key':
+                    keyCount--;
+                    break;                
             }
     }
 
