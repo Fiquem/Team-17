@@ -33,7 +33,22 @@
         }
         document.getElementById("Requirements").innerText = min + max + reqs;
     }
-    
+    function converter(event, textBoxID, listID) {
+        if (event.keyCode == 13 || event.which == 13) {
+            var text = document.getElementById(textBoxID).value;
+            if (text.substring(0, 7) != "http://" && text.substring(0, 8) != "https://") {
+                text = "http://" + text;
+            }
+            var element = document.createElement("li");
+            var link = document.createElement("a");
+            link.setAttribute("href", text);
+            link.setAttribute("target", "_blank");
+            link.innerText = (text + "       ");
+            element.appendChild(link);
+            var list = document.getElementById("mylist");
+            list.appendChild(element);
+        }
+    }
     function addInsElement(catagory) {
         // create a new insert element
         // and give it some content
@@ -450,14 +465,12 @@
         setVisibility('template', true);
         switch (template) {
             case 'Foreign Language':
-                document.getElementById("category").innerText = "Foreign Language";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
-                //setVisibilty('Links', false);
-                //setVisibilty('LinksHead', false);
+                setVisibility('linkList', false);
+                setVisibility('LinksHead', false);
                 break;
             case 'Science':
-                document.getElementById("category").innerText = "Science";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('WordCount', false);
@@ -466,28 +479,25 @@
                 setVisibility('KeyWordsHead', false);
                 break;
             case 'Creative Writing':
-                document.getElementById("category").innerText = "Creative Writing";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('KeyWords', false);
                 setVisibility('KeyWordsHead', false);
                 setVisibility('References', false);
                 setVisibility('RefHead', false);
-                //setVisibility('Links', false);
-                //setVisibility('LinksHead', false);
+                setVisibility('linkList', false);
+                setVisibility('LinksHead', false);
                 break;
             case 'Academic':
-                document.getElementById("category").innerText = "Academic";
-                //setVisibility('Links', false);
-                //setVisibility('LinksHead', false);
+                setVisibility('linkList', false);
+                setVisibility('LinksHead', false);
                 setVisibility('KeyWords', false);
                 setVisibility('KeyWordsHead', false);
                 break;
         }
     }
-    
+
     function resetTemplate() {
-        document.getElementById("category").innerText = "Home";
         setVisibility('template', false);
         setVisibility('menu', true);
         setVisibility('helpSection', false);
@@ -501,10 +511,9 @@
         setVisibility('RefHead', true);
         setVisibility('Structure', true);
         setVisibility('StructureHead', true);
-        //setVisibility('Links', true);
-        //setVisibility('LinksHead', true);
+        setVisibility('linkList', true);
+        setVisibility('LinksHead', true);
     }
-
     function loadHelp() {
         document.getElementById("category").innerText = "Help";
         setVisibility('template', false);
