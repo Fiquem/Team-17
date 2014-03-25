@@ -144,6 +144,7 @@
             newInp.setAttribute("size", "25");
             newInp.setAttribute("MaxLength", "50");
             newInp.setAttribute("style", "margin-left: 30px; height: 20px; line-height: 70%;")
+            newInp.setAttribute("onkeypress", "return addSubPoint(event," + input + ");")
             //create and insert corresponding checkbox
             var newCB = document.createElement("input");
             var CBid = reqId + "checkbox";
@@ -449,12 +450,14 @@
         setVisibility('template', true);
         switch (template) {
             case 'Foreign Language':
+                document.getElementById("category").innerText = "Foreign Language";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 //setVisibilty('Links', false);
                 //setVisibilty('LinksHead', false);
                 break;
             case 'Science':
+                document.getElementById("category").innerText = "Science";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('WordCount', false);
@@ -463,6 +466,7 @@
                 setVisibility('KeyWordsHead', false);
                 break;
             case 'Creative Writing':
+                document.getElementById("category").innerText = "Creative Writing";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('KeyWords', false);
@@ -473,6 +477,7 @@
                 //setVisibility('LinksHead', false);
                 break;
             case 'Academic':
+                document.getElementById("category").innerText = "Academic";
                 //setVisibility('Links', false);
                 //setVisibility('LinksHead', false);
                 setVisibility('KeyWords', false);
@@ -482,6 +487,7 @@
     }
     
     function resetTemplate() {
+        document.getElementById("category").innerText = "Home";
         setVisibility('template', false);
         setVisibility('menu', true);
         setVisibility('helpSection', false);
@@ -500,6 +506,7 @@
     }
 
     function loadHelp() {
+        document.getElementById("category").innerText = "Help";
         setVisibility('template', false);
         setVisibility('menu', false);
         setVisibility('help', false);
@@ -588,7 +595,8 @@
                 case 'str':
                     document.getElementById(catagory + i).setAttribute("placeholder", "Point " + i);
                     for (var j = 0; j < structSubPointsCount[i]; j++) {
-                        document.getElementById(catagory+ i + "_sub" + j).id = (catagory + (i-1) + "_sub" + j);
+                        document.getElementById(catagory + i + "_sub" + j).setAttribute("onkeypress", "return addSubPoint(event," + catagory + (i - 1) + ");");
+                        document.getElementById(catagory + i + "_sub" + j).id = (catagory + (i - 1) + "_sub" + j);
                     }
                     document.getElementById(catagory + i).setAttribute("onkeypress", "addSubPoint(event," + catagory + (i - 1) + ");");
                     document.getElementById(catagory + i + "div").id = (catagory + (i - 1)) + "div";
