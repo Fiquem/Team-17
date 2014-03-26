@@ -74,6 +74,8 @@
     <Content Include="App\Home\Home.js" />
     <Content Include="Content\Office.css" />
     <Content Include="Images\Close.png" />
+    <Content Include="Images\Subpoints.JPG" />
+    <Content Include="Images\WordCountRed.JPG" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
