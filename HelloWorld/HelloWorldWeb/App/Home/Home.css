@@ -49,6 +49,15 @@ h4
     color: #2376BC;
     font-weight:500;
 }
+
+div1 {    
+      padding-left: 10px;  
+    } 
+
+li {    
+        margin-left : 20px; 
+    } 
+
 div#WordCount, div#Requirements, div#References, div#Structure, div#KeyWords, div#Books
 {
 	margin-left: 15px;
