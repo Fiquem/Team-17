@@ -194,6 +194,7 @@
                 }
                 else {
                     link.innerText = text.substring(0, 40) + "...";
+                    link.setAttribute("title", text);
                 }
                // link.setAttribute("onclick", "openURL(link"+(linkCount-1)+")");
                 element.appendChild(link);
