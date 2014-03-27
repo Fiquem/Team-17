@@ -75,9 +75,12 @@ div#header
 }
 ul#mylist{
     padding-left:15px;
-    text-align:left;
     margin-left:15px;
     float:left;
+   
+}
+li{
+    
 }
 div#buttons
 {
@@ -110,11 +113,7 @@ input[type=button]
     background-color: #2376BC;
     color: #FFFFFF;
 }
-li
-{
-    margin-right: 10px;
-    float: right;
-}
+
 input[type=deleteButton]
 {
     margin-right: 10px;

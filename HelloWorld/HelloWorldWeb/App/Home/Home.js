@@ -180,28 +180,46 @@
     function converter(event, textBoxID, listID) {
         if (event.keyCode == 13 || event.which == 13) {
             var text = document.getElementById(textBoxID).value;
-            if (text.substring(0, 7) != "http://" && text.substring(0, 8) != "https://") {
-                text = "http://" + text;
-            }
-            Office.context.document.settings.set('link' + linkCount++, text);
-            var element = document.createElement("li");
-            var link = document.createElement("a");
-            link.setAttribute("href", text);
-            link.setAttribute("target", "_blank");
-            link.innerText = (text + "       ");
-            element.appendChild(link);
-            var list = document.getElementById("mylist");
-            list.appendChild(element);
-            Office.context.document.settings.set('linkCount', linkCount);
-            Office.context.document.settings.saveAsync(function (asyncResult) {
-                if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-                    //Hopefully it'll go in here (means that the save worked)
-                } else {
-                    //Save didn't work
+            if (text.length > 0) {
+                if (text.substring(0, 7) != "http://" && text.substring(0, 8) != "https://") {
+                    text = "http://" + text;
                 }
-            });
+                Office.context.document.settings.set('link' + linkCount++, text);
+                var element = document.createElement("li");
+                var link = document.createElement("a");
+                link.setAttribute("href", text);
+                link.setAttribute("target", "_blank");
+                if (text.length <= 40) {
+                    link.innerText = (text);
+                }
+                else {
+                    link.innerText = text.substring(0, 40) + "...";
+                }
+               // link.setAttribute("onclick", "openURL(link"+(linkCount-1)+")");
+                element.appendChild(link);
+                var list = document.getElementById("mylist");
+                list.appendChild(element);
+                document.getElementById(textBoxID).value = "";
+                Office.context.document.settings.set('linkCount', linkCount);
+                Office.context.document.settings.saveAsync(function (asyncResult) {
+                    if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                        //Hopefully it'll go in here (means that the save worked)
+                    } else {
+                        //Save didn't work
+                    }
+                });
+            }
         }
     }
+
+    //function openURL(name) {
+    //    if (name.id == 'undefined') {
+    //        name = name.id;
+    //    }
+    //    var link = Office.context.document.settings.get(name);
+    //    var shell = new ActiveXObject("WScript.Shell");
+    //    shell.run(link);
+    //}
     function addInsElement(catagory) {
         // create a new insert element
         // and give it some content
