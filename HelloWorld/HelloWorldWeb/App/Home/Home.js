@@ -1,4 +1,6 @@
-﻿/// <reference path="../App.js" />
+﻿
+
+/// <reference path="../App.js" />
 
     //"use strict";
     // Checks for the DOM to load using the jQuery ready function.
@@ -7,8 +9,12 @@
         $(document).ready(function () {
             // After the DOM is loaded, app-specific code can run.
             // Add any initialization logic to this function.
-         
+            var alreadyHasASave = Office.context.document.settings.get('saveAvaible');
+            if (alreadyHasASave  == true) {
+                loadEverything();
+            }
             setTimeout(update, 1000)
+            
         });
     };
     
@@ -17,11 +23,149 @@
     var keyCount = 1;
     var bookCount = 1;
     var strCount = 1;
+    var linkCount = 0;
     var textColour;
     var globalTemplate;
     var structSubPointsCount = new Array();
     structSubPointsCount[0] = 0;
     var document1 = "";
+
+    function loadEverything() {
+        deleteFirstBox('ref');
+        deleteFirstBox('key');
+        deleteFirstBox('book');
+        deleteFirstBox('str');
+        
+        makeBoxes('ref');
+        makeBoxes('key');
+        makeBoxes('book');
+        makeBoxes('str');
+        var linkCount = Office.context.document.settings.get('linkCount');
+        for (var i = 0; i < linkCount; i++) {
+            var event = new String();
+            event.keyCode = 13;
+            event.which = 13;
+            document.getElementById('text0').value = Office.context.document.settings.get('link' + i);
+            converter(event, 'text0', 'mylist');
+        }
+        document.getElementById('text0').value = '';
+        //load word count stuff
+        document.getElementById('target').value = Office.context.document.settings.get('WC');
+        document.getElementById('margin').value = Office.context.document.settings.get('margin');
+        setTemplate(Office.context.document.settings.get('globalTemplate'));
+        var backButton = Office.context.document.settings.get('back');
+        setVisibility('back', backButton);
+        setVisibility('help', !backButton);
+        document.getElementById("category").innerText = Office.context.document.settings.get('title');
+
+    }
+    function deleteFirstBox(id){
+        switch (id) {
+            case 'ref':
+               
+                    removeBox('ref0');
+                
+                break;
+            case 'key':
+                
+                    removeBox('key0');
+                
+                break;
+            case 'book':
+               
+                    removeBox('book0');
+                
+                break;
+            case 'str':
+                
+                    removeBox('str0');
+                
+                break;
+        }
+    }
+    function makeBoxes(id) {
+        var count = Office.context.document.settings.get(id+'Count');
+        for (var i = 0; i < count; i++) {
+            addInsElement(id);
+            document.getElementById(id + i).value = Office.context.document.settings.get(id + i);
+            var checkboxStatus = Office.context.document.settings.get(id + i + 'checkbox');
+            if (checkboxStatus == true) {
+                document.getElementById(id + i + 'checkbox').checked = true;
+            }
+            else if (checkboxStatus == false) {
+                document.getElementById(id + i + 'checkbox').checked = false;
+            }
+            else {
+                document.getElementById(id + i).value = "Something went very wrong here...";
+            }
+            switch(id){
+                case 'str':
+                    var subCount = Office.context.document.settings.get('str' + i + 'Count');
+                    for (var j = 0; j < subCount; j++) {
+                        var event = new String();
+                        event.keyCode = 13;
+                        event.which = 13;
+                        addSubPoint(event, id + i)
+
+                        document.getElementById('str' + i + '_sub' + j).value = Office.context.document.settings.get('str' + i + '_sub' + j);
+                        document.getElementById('str' + i + '_sub' + j + 'checkbox').checked = Office.context.document.settings.get('str' + i + '_sub' + j + 'checkbox');
+                    }
+                    break;
+            }
+        }
+    }
+    function saveEverything() {
+        //Office.context.document.settings.set('reqCount', reqCount);
+        //for (var i = 0; i < reqCount; i++) {
+        //    Office.context.document.settings.set('req' + i, document.getElementById('req' + i).value);
+        //}
+        Office.context.document.settings.set('saveAvaible', true);
+        Office.context.document.settings.set('refCount', refCount);
+        for (var i = 0; i < refCount; i++) {
+            Office.context.document.settings.set('ref' + i, document.getElementById('ref' + i).value);
+            Office.context.document.settings.set('ref' + i + 'checkbox', document.getElementById('ref' + i + 'checkbox').checked);
+        }
+        Office.context.document.settings.set('keyCount', keyCount);
+        for (var i = 0; i < keyCount; i++) {
+            Office.context.document.settings.set('key' + i, document.getElementById('key' + i).value);
+
+            Office.context.document.settings.set('key' + i + 'checkbox', document.getElementById('key' + i + 'checkbox').checked);
+        }
+        Office.context.document.settings.set('bookCount', bookCount);
+        for (var i = 0; i < bookCount; i++) {
+            Office.context.document.settings.set('book' + i, document.getElementById('book' + i).value);
+            Office.context.document.settings.set('book' + i + 'checkbox', document.getElementById('book' + i + 'checkbox').checked);
+        }
+        Office.context.document.settings.set('strCount', strCount);
+        for (var i = 0; i < strCount; i++) {
+            Office.context.document.settings.set('str' + i, document.getElementById('str' + i).value);
+            Office.context.document.settings.set('str' + i + 'checkbox', document.getElementById('str' + i + 'checkbox').checked);
+
+            Office.context.document.settings.set('str' + i + 'Count', structSubPointsCount[i]);
+            for (var j = 0; j < structSubPointsCount[i]; j++) {
+                Office.context.document.settings.set('str' + i + '_sub' + j, document.getElementById('str' + i + '_sub' + j).value);
+                Office.context.document.settings.set('str' + i + '_sub' + j + 'checkbox', document.getElementById('str' + i + '_sub' + j + 'checkbox').checked);
+            }
+        }
+        
+        Office.context.document.settings.set('back', document.getElementById('back').style.display);
+        Office.context.document.settings.set('help', document.getElementById('help').style.display);
+        Office.context.document.settings.set('title', document.getElementById("category").innerText);
+        Office.context.document.settings.set('WC', document.getElementById('target').value);
+        Office.context.document.settings.set('margin', document.getElementById('margin').value);
+
+
+        Office.context.document.settings.saveAsync(function (asyncResult) {
+            if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                //Hopefully it'll go in here (means that the save worked)
+            } else {
+                //Save didn't work
+            }
+        });
+    }
+
+
+    
 
     function InputReq() {
         var min = document.getElementById('min').value;
@@ -39,6 +183,7 @@
             if (text.substring(0, 7) != "http://" && text.substring(0, 8) != "https://") {
                 text = "http://" + text;
             }
+            Office.context.document.settings.set('link' + linkCount++, text);
             var element = document.createElement("li");
             var link = document.createElement("a");
             link.setAttribute("href", text);
@@ -47,6 +192,14 @@
             element.appendChild(link);
             var list = document.getElementById("mylist");
             list.appendChild(element);
+            Office.context.document.settings.set('linkCount', linkCount);
+            Office.context.document.settings.saveAsync(function (asyncResult) {
+                if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                    //Hopefully it'll go in here (means that the save worked)
+                } else {
+                    //Save didn't work
+                }
+            });
         }
     }
     function addInsElement(catagory) {
@@ -131,6 +284,7 @@
         //BR because I can't br with "br"
         var p = document.createElement("p");
         my_div.appendChild(p);
+
     }
 
     function addSubPoint(event, catagory) {
@@ -223,6 +377,7 @@
                 else {
                     id = current + "checkbox";
                     document.getElementById(id).checked = true;
+                    
                 }
             }
             else {
@@ -369,12 +524,38 @@
                 break;
         }
         for (var i = 0; i < total; i++) {
+            switch (type) {
+                case 'str':
+                    if (structSubPointsCount[i] > 0) {
+                        var allChecked = true;
+                        for (var j = 0; j < structSubPointsCount[i]; j++) {
+                            if (document.getElementById('str' + i + '_sub' + j + 'checkbox').checked == false) {
+                                allChecked = false;
+                                break;
+                            }
+                        }
+                        if (allChecked) {
+                            document.getElementById('str' + i + 'checkbox').checked = true;
+                        }
+                    }
+                    break;
+                case 'ref':
+
+                    break;
+                case 'key':
+
+                    break;
+                case 'book':
+
+                    break;
+            }
             var current = type + i + "checkbox";
             var box = document.getElementById(current)
             if (box.checked) {
                 count++;
             }
         }
+        
         return count;
     }
 
@@ -386,6 +567,7 @@
         refSearch('key');
         progress();
         document1 = "";
+        saveEverything();
         setTimeout(update, 500);
     };
     
@@ -404,23 +586,31 @@
         var b = document.getElementById(buttonID);
         if (e.style.display == 'block') {
             e.style.display = 'none';
-            if(buttonID != '')
+            if(buttonID != ''){
                 b.setAttribute("value", "Show");
+            
+            }
         }
         else {
             e.style.display = 'block';
-            if (buttonID != '')
+            if (buttonID != '') {
                 b.setAttribute("value", "Hide");
+             
+            }
         }
        
     }
     
     function setVisibility(id, bool) {
         var e = document.getElementById(id);
-        if (bool)
+        if (bool) {
             e.style.display = 'block';
-        else
+           
+        }
+        else {
             e.style.display = 'none';
+      
+        }
     }
     
     //word count function which replaces a unnecessary text and then counts the spaces in between words
@@ -460,17 +650,22 @@
     
     function setTemplate(template) {
         globalTemplate = template;
+        Office.context.document.settings.set('globalTemplate', template);
+        
         setVisibility('menu', false);
         setVisibility('help', false);
+
         setVisibility('template', true);
         switch (template) {
             case 'Foreign Language':
+                document.getElementById("category").innerText = "Foreign Language";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('linkList', false);
                 setVisibility('LinksHead', false);
                 break;
             case 'Science':
+                document.getElementById("category").innerText = "Science";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('WordCount', false);
@@ -479,6 +674,7 @@
                 setVisibility('KeyWordsHead', false);
                 break;
             case 'Creative Writing':
+                document.getElementById("category").innerText = "Creative Writing";
                 setVisibility('Books', false);
                 setVisibility('BooksHead', false);
                 setVisibility('KeyWords', false);
@@ -489,15 +685,25 @@
                 setVisibility('LinksHead', false);
                 break;
             case 'Academic':
+                document.getElementById("category").innerText = "Academic";
                 setVisibility('linkList', false);
                 setVisibility('LinksHead', false);
                 setVisibility('KeyWords', false);
                 setVisibility('KeyWordsHead', false);
                 break;
         }
+
+        Office.context.document.settings.saveAsync(function (asyncResult) {
+            if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                //Hopefully it'll go in here (means that the save worked)
+            } else {
+                //Save didn't work
+            }
+        });
     }
 
     function resetTemplate() {
+        document.getElementById("category").innerText = "Menu";
         setVisibility('template', false);
         setVisibility('menu', true);
         setVisibility('helpSection', false);
@@ -592,6 +798,9 @@
             case 'key':
                 count = keyCount;
                 break;
+            case 'book':
+                count = bookCount;
+                break;
         }
         for (var i = (num + 1) ; i < count; i++) {
             switch (catagory) {
@@ -611,6 +820,8 @@
                     document.getElementById(catagory + i + "div").id = (catagory + (i - 1)) + "div";
                     break;
                 case 'key':
+                    break;
+                case 'book':
                     break;
             }
             document.getElementById(catagory + i).id = (catagory+ (i-1));
@@ -635,13 +846,16 @@
                     break;
                 case 'key':
                     keyCount--;
-                    break;                
+                    break;
+                case 'book':
+                    bookCount--;
+                    break;
             }
     }
 
     
 
-    
+   
 
 
 
