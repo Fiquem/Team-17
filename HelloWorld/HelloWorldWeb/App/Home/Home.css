@@ -29,8 +29,8 @@ input[type=refresh]:hover
 input[type=menuButton]:hover
 {
     cursor:pointer;
-    background-color:  #2376BC;
-    border: 1px solid #FFFFFF;
+    background-color:  #3333CC;
+    border: 1px solid #3333CC;
 }
 h1
 {
@@ -90,7 +90,7 @@ span#category
 {
 	font-size: 24px;
     margin-left: 25%;
-	color: #FFFFFF;
+	color: #FFFFFA;
     text-decoration-color:#4ec724;
 }
 div#menu
@@ -161,9 +161,9 @@ input[type=menuButton]
     width: 50%;
 	height: 60px;
 	max-width: 500px;
-	border: 1px solid #d7d7d7;
-    background-color: #d7d7d7;
-    color: #FFFFFF;
+	border: 1px solid #2376BC;
+    background-color: #2376BC;
+    color:#d7d7d7;
     font-size: large;
     margin-top: 10%;
 

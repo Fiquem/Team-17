@@ -52,7 +52,8 @@
                 <input type="text" id="target" size="5" placeholder="Target" maxlength="20" />
 
                 Margin:
-                <input type="text" id="margin" size="5" placeholder="%" maxlength="20" />
+                <input type="text" id="margin" size="5" placeholder="e.g.10" maxlength="20" />
+                %
             </p>
             <p>
                 Min Word Count:
@@ -73,7 +74,7 @@
         </h1>
 
         <div id="Structure" style="display:block;">
-            <input type="text" id="str0" size="29" placeholder="Point 1" maxlength="50" onkeypress="return addSubPoint(event, 'str0');" />
+            <input type="text" id="str0" size="29" placeholder="Point 1 e.g. Introduction" maxlength="50" onkeypress="return addSubPoint(event, 'str0');" />
             <input type="checkbox" id="str0checkbox" tabindex="-1" />
             <input type="deleteButton" value="X" id="str0button" onclick="removeBox('str0');" tabindex="-1" readonly />
             <div id="str0div" style="display:block; " tabindex="-1"></div>
@@ -88,7 +89,7 @@
         </h1>
 
         <div id="References" style="display:block;">
-            <input type="text" id="ref0" size="29" placeholder="Enter a reference here" maxlength="50" />
+            <input type="text" id="ref0" size="29" placeholder="Enter reference here e.g. (Philips,2009)" maxlength="50" />
             <input type="checkbox" id="ref0checkbox" tabindex="-1" />
             <input type="deleteButton" value="X" id="ref0button" onclick="removeBox('ref0');" readonly tabindex="-1" />
             </br></br>
@@ -104,7 +105,7 @@
 
         <div id="Books" style="display:block;">
 
-            <input type="text" id="book0" size="29" placeholder="Enter a book title here" maxlength="50" />
+            <input type="text" id="book0" size="29" placeholder="Enter a book title here e.g. Data Control pg.24" maxlength="50" />
             <input type="checkbox" id="book0checkbox" tabindex="-1" />
             <input type="deleteButton" value="X" id="book0button" onclick="removeBox('book0');" readonly tabindex="-1" />
             </br></br>
@@ -119,7 +120,7 @@
         </h1>
 
         <div id="KeyWords" style="display:block;">
-            <input type="text" id="key0" size="29" placeholder="Enter a key word here" maxlength="50" />
+            <input type="text" id="key0" size="29" placeholder="Enter a key word here e.g.'function'" maxlength="50" />
             <input type="checkbox" id="key0checkbox" tabindex="-1" />
             <input type="deleteButton" value="X" id="key0button" onclick="removeBox('key0');" readonly tabindex="-1" />
             </br></br>

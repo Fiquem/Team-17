@@ -691,6 +691,7 @@
                 setVisibility('WordCountHead', false);
                 setVisibility('KeyWords', false);
                 setVisibility('KeyWordsHead', false);
+
                 break;
             case 'Creative Writing':
                 document.getElementById("category").innerText = "Creative Writing";
@@ -705,8 +706,6 @@
                 break;
             case 'Academic':
                 document.getElementById("category").innerText = "Academic";
-                setVisibility('linkList', false);
-                setVisibility('LinksHead', false);
                 setVisibility('KeyWords', false);
                 setVisibility('KeyWordsHead', false);
                 break;
