@@ -187,6 +187,7 @@
                 Office.context.document.settings.set('link' + linkCount++, text);
                 var element = document.createElement("li");
                 var link = document.createElement("a");
+               // link.id = "link" + (linkCount - 1);
                 link.setAttribute("href", text);
                 link.setAttribute("target", "_blank");
                 if (text.length <= 40) {
@@ -196,7 +197,7 @@
                     link.innerText = text.substring(0, 40) + "...";
                     link.setAttribute("title", text);
                 }
-               // link.setAttribute("onclick", "openURL(link"+(linkCount-1)+")");
+               //link.setAttribute("onclick", "openURL("+link.id+")");
                 element.appendChild(link);
                 var list = document.getElementById("mylist");
                 list.appendChild(element);
@@ -214,12 +215,9 @@
     }
 
     //function openURL(name) {
-    //    if (name.id == 'undefined') {
-    //        name = name.id;
-    //    }
-    //    var link = Office.context.document.settings.get(name);
+    //   // var link = document.getElementById(name).getAttribute("href");
     //    var shell = new ActiveXObject("WScript.Shell");
-    //    shell.run(link);
+    //    shell.run(name.href);
     //}
     function addInsElement(catagory) {
         // create a new insert element
