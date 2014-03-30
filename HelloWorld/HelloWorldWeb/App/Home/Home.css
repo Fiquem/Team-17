@@ -121,6 +121,12 @@ input[type=button]
     color: #FFFFFF;
 }
 
+
+input[id=helpCookieCheckBox]
+{
+    margin-right:10px;
+    float:right;
+}
 input[type=deleteButton]
 {
     margin-right: 10px;

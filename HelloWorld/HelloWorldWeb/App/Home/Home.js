@@ -9,15 +9,21 @@
         $(document).ready(function () {
             // After the DOM is loaded, app-specific code can run.
             // Add any initialization logic to this function.
+            
             var alreadyHasASave = Office.context.document.settings.get('saveAvaible');
             if (alreadyHasASave  == true) {
                 loadEverything();
             }
+            var storage = getStorage("help");
+            if (storage != "false") {
+                document.getElementById("helpCookieCheckBox").checked = true;
+                loadHelp();
+            }
+            
             setTimeout(update, 1000)
             
         });
     };
-    
     var reqCount = 1;
     var refCount = 1;
     var keyCount = 1;
@@ -30,7 +36,25 @@
     structSubPointsCount[0] = 0;
     var document1 = "";
 
+    function getStorage(key) {
+        return localStorage.getItem(key);
+    }
+
+    function toggleStorage(parameter) {
+        var storage = getStorage(parameter);
+        if (storage == "false") {
+            setStorage(parameter, "true");
+        }
+        else
+        {
+            setStorage(parameter, "false");
+        }
+    }
+    function setStorage(key,data) {
+        localStorage.setItem(key, data)
+    }
     function loadEverything() {
+        
         deleteFirstBox('ref');
         deleteFirstBox('key');
         deleteFirstBox('book');
