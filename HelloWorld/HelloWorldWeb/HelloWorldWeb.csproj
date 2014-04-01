@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\EssayHelper.pubxml" />
+    <None Include="Properties\PublishProfiles\Koding.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
