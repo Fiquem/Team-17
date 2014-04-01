@@ -36,10 +36,18 @@
     structSubPointsCount[0] = 0;
     var document1 = "";
 
+/**
+    Get data from storage, this data is not instance specific 
+    key - name of data in storage
+*/
     function getStorage(key) {
         return localStorage.getItem(key);
     }
-
+/**
+    Toggles a boolean stored in storage, this data is not instance specific 
+    Only use this for booleans.
+    parameter - name of data in storage
+*/
     function toggleStorage(parameter) {
         var storage = getStorage(parameter);
         if (storage == "false") {
@@ -50,9 +58,16 @@
             setStorage(parameter, "false");
         }
     }
+/**
+    Stores an item in storage, this data is not instance specific 
+*/
     function setStorage(key,data) {
         localStorage.setItem(key, data)
     }
+
+/*
+    Loads past season of document app settings into current season
+*/
     function loadEverything() {
         
         deleteFirstBox('ref');
@@ -83,30 +98,30 @@
         document.getElementById("category").innerText = Office.context.document.settings.get('title');
 
     }
+
+/**
+    Deletes the first box in each section
+    This was added to take care of the automatically generated boxes when a app loads from a previous season
+*/
     function deleteFirstBox(id){
         switch (id) {
             case 'ref':
-               
                     removeBox('ref0');
-                
                 break;
             case 'key':
-                
                     removeBox('key0');
-                
                 break;
             case 'book':
-               
                     removeBox('book0');
-                
                 break;
             case 'str':
-                
                     removeBox('str0');
-                
                 break;
         }
     }
+/**
+    
+*/
     function makeBoxes(id) {
         var count = Office.context.document.settings.get(id+'Count');
         for (var i = 0; i < count; i++) {
@@ -190,7 +205,9 @@
 
 
     
-
+/**
+    Old code used for testing
+*/
     function InputReq() {
         var min = document.getElementById('min').value;
         var max = document.getElementById('max').value;
@@ -201,6 +218,9 @@
         }
         document.getElementById("Requirements").innerText = min + max + reqs;
     }
+/**
+    Takes in any kind of link and adds http where needed
+*/
     function converter(event, textBoxID, listID) {
         if (event.keyCode == 13 || event.which == 13) {
             var text = document.getElementById(textBoxID).value;
@@ -237,12 +257,18 @@
             }
         }
     }
-
+    //an attempt to open the link in default browser
     //function openURL(name) {
     //   // var link = document.getElementById(name).getAttribute("href");
     //    var shell = new ActiveXObject("WScript.Shell");
     //    shell.run(name.href);
     //}
+
+/**
+    Creates a new normal box with it's attributes depending on the catagory
+    ie addInsElement("struct") will create a new box in the Struct section that also has the ability to create sub boxes
+    Also creates all relevant deleteBoxes and CheckBoxes
+*/
     function addInsElement(catagory) {
         // create a new insert element
         // and give it some content
@@ -327,7 +353,9 @@
         my_div.appendChild(p);
 
     }
-
+/**
+    Adds in a sub box under a parent
+*/
     function addSubPoint(event, catagory) {
         if (event.keyCode == 13 || event.which == 13) {
             var input;
@@ -342,7 +370,7 @@
             var num = parseInt(input.match(/\d+/));
             var reqId;
             switch (input.replace(/[0-9]/g, '')) {
-                case 'str':// str0/sub0
+                case 'str':// str0_sub0
                     reqId = input + "_sub" + structSubPointsCount[num]++;
                     newInp.setAttribute("placeholder", "Subpoint " + structSubPointsCount[num]);
                     form = "Structure";//name of the division
@@ -387,12 +415,16 @@
 
         }
     }
-
+    //Old Code
     function writeToPage(text) {
         document.getElementById("Output").innerText = text;
     }
 
-    //loops through all references and searches the whole document for each
+/**
+    loops through all references and searches the whole document for the contexts of the
+    releveant box.
+    If content is found the relevant checkbox is ticked
+*/
     function refSearch(type) {
         var current;
         var needle;
@@ -641,7 +673,9 @@
         }
        
     }
-    
+/**
+    Toggles the visibility of a div
+*/
     function setVisibility(id, bool) {
         var e = document.getElementById(id);
         if (bool) {
@@ -741,7 +775,7 @@
             }
         });
     }
-
+//resets template to the main menu
     function resetTemplate() {
         document.getElementById("category").innerText = "Menu";
         setVisibility('template', false);
@@ -760,6 +794,7 @@
         setVisibility('linkList', true);
         setVisibility('LinksHead', true);
     }
+//sets template to help screen
     function loadHelp() {
         document.getElementById("category").innerText = "Help";
         setVisibility('template', false);
@@ -768,7 +803,7 @@
         setVisibility('helpSection', true);
         setVisibility('back', true);
     }
-
+//removes the id'd sub box
     function removeSubBox(id) {
         var input;
         if (typeof id.id === 'undefined') {
